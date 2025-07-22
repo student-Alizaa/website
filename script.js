@@ -12,7 +12,8 @@ document.addEventListener('DOMContentLoaded', function() {
             navMenu.classList.remove('active');
         }));
     }
-const scrollToTopBtn = document.getElementById('scrollToTop');
+
+    const scrollToTopBtn = document.getElementById('scrollToTop');
     if (scrollToTopBtn) {
         window.addEventListener('scroll', function() {
             if (window.pageYOffset > 300) {
@@ -42,8 +43,9 @@ const scrollToTopBtn = document.getElementById('scrollToTop');
             const messageError = document.getElementById('messageError');
             const successMessage = document.getElementById('successMessage');
             clearErrors();
-            
+
             let isValid = true;
+
             if (!nameField.value.trim()) {
                 showError(nameError, 'Name is required');
                 addErrorStyle(nameField);
@@ -55,6 +57,8 @@ const scrollToTopBtn = document.getElementById('scrollToTop');
             } else {
                 removeErrorStyle(nameField);
             }
+
+            // ✅ Full email regex
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailField.value.trim()) {
                 showError(emailError, 'Email is required');
@@ -67,6 +71,7 @@ const scrollToTopBtn = document.getElementById('scrollToTop');
             } else {
                 removeErrorStyle(emailField);
             }
+
             if (!messageField.value.trim()) {
                 showError(messageError, 'Message is required');
                 addErrorStyle(messageField);
@@ -78,33 +83,37 @@ const scrollToTopBtn = document.getElementById('scrollToTop');
             } else {
                 removeErrorStyle(messageField);
             }
+
             if (isValid) {
+                contactForm.reset(); // ✅ Reset immediately after success
+
                 contactForm.style.display = 'none';
                 successMessage.style.display = 'block';
                 successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
                 setTimeout(() => {
-                    contactForm.reset();
                     contactForm.style.display = 'block';
                     successMessage.style.display = 'none';
                 }, 5000);
             }
         });
     }
+
     function showError(errorElement, message) {
         errorElement.textContent = message;
         errorElement.style.display = 'block';
     }
-    
+
     function addErrorStyle(inputElement) {
         inputElement.style.borderColor = '#ef4444';
         inputElement.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
     }
-    
+
     function removeErrorStyle(inputElement) {
         inputElement.style.borderColor = '#d1d5db';
         inputElement.style.boxShadow = 'none';
     }
-    
+
     function clearErrors() {
         const errorMessages = document.querySelectorAll('.error-message');
         errorMessages.forEach(error => {
@@ -116,6 +125,7 @@ const scrollToTopBtn = document.getElementById('scrollToTop');
             removeErrorStyle(input);
         });
     }
+
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -128,16 +138,15 @@ const scrollToTopBtn = document.getElementById('scrollToTop');
             }
         });
     });
-    
+
     const buttons = document.querySelectorAll('.btn');
     buttons.forEach(button => {
         button.addEventListener('click', function() {
-            // Only add loading state for form submit buttons
             if (this.type === 'submit') {
                 const originalText = this.textContent;
                 this.textContent = 'Sending...';
                 this.disabled = true;
-                
+
                 setTimeout(() => {
                     this.textContent = originalText;
                     this.disabled = false;
@@ -145,11 +154,11 @@ const scrollToTopBtn = document.getElementById('scrollToTop');
             }
         });
     });
-    
+
     window.addEventListener('scroll', function() {
         const scrolled = window.pageYOffset;
         const heroElements = document.querySelectorAll('.hero, .about-hero, .contact-hero');
-        
+
         heroElements.forEach(hero => {
             if (hero.getBoundingClientRect().bottom > 0) {
                 const rate = scrolled * -0.5;
